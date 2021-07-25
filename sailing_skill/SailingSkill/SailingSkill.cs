@@ -7,6 +7,8 @@ using Pipakin.SkillInjectorMod;
 using System;
 using UnityEngine;
 
+// Baldur's SteamID: 76561199067080192
+
 namespace SailingSkill
 {
 
@@ -52,7 +54,16 @@ namespace SailingSkill
                     float degrees = Vector3.Angle(EnvMan.instance.GetWindDir(), __instance.transform.forward);
                     if (degrees < 135f)
                     {
-                        __result *= GetSkillFactorMultiplier(sailingConfig.MaxTailwindBoost);  // Maximum tailwind speed boost, up to 50%
+                        // Check if player is Baldur, and apply unique speed increase if so
+                        if (Player.m_localPlayer.GetPlayerName() == "Baldur")
+                        {
+                            // Baldur's boat goes 10% faster compared to other boats
+                            __result *= GetSkillFactorMultiplier(sailingConfig.MaxTailwindBoost) + 0.1f;
+                        }
+                        else
+                        {
+                            __result *= GetSkillFactorMultiplier(sailingConfig.MaxTailwindBoost);  // Maximum tailwind speed boost, up to 50%
+                        }
                     }
                     else
                     {
@@ -71,8 +82,19 @@ namespace SailingSkill
                     return;
                 if (IsPlayerControlling(__instance.gameObject.GetComponent<Ship>()))
                 {
-                    MultiplyDamage(ref hit, GetSkillFactorMultiplier(sailingConfig.MaxDamageReduction));  // up to 50% dmg reduction
-
+                    // Check if player is Baldur, and apply unique damage reduction if so
+                    if (Player.m_localPlayer.GetPlayerName() == "Baldur")
+                    {
+                        Debug.Log($"Baldur's currently this ship's Captain, so it takes less damage.");
+                        // Baldur's boat takes 30% less damage compared to other boats.
+                        float baldurMultiplier = GetSkillFactorMultiplier(sailingConfig.MaxDamageReduction) - 0.3f; 
+                        MultiplyDamage(ref hit, baldurMultiplier);
+                    }
+                    else
+                    {
+                        // up to 50% dmg reduction
+                        MultiplyDamage(ref hit, GetSkillFactorMultiplier(sailingConfig.MaxDamageReduction)); 
+                    }
                 }
             }
         }
