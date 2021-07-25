@@ -61,28 +61,15 @@ namespace SailingSkill
         {
             config.Bind<int>("General", "NexusID", NEXUS_ID, "Nexus mod ID for updates");
 
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "ModConfigEnforcer");
+            skillIncrease = new ConfigVariable<float>(config, id, "skillIncrease", .5f, "Leveling", "Amount of skill exp granted per skillIncreaseTick", false);
+            skillIncreaseTick = new ConfigVariable<int>(config, id, "skillIncreaseTick", 300, "Leveling", "Number of boat update ticks to grant skill increase after, 50 is roughly equivalent to 1 second", false);
+            halfSailSkillIncreaseMultiplier = new ConfigVariable<float>(config, id, "halfSailSkillIncreaseMultiplier", 1.5f, "Leveling", "Exp multiplier for half sail sailing speed", false);
+            fullSailSkillIncreaseMultiplier = new ConfigVariable<float>(config, id, "fullSailSkillIncreaseMultiplier", 2.0f, "Leveling", "Exp multiplier for full sail sailing speed", false);
 
-            if (assembly != null)
-            {
-                Debug.Log("[SailingSkill] Mod Config Enforcer detected, registering mod...");
-                var configManagerType = assembly.GetType("ModConfigEnforcer.ConfigManager");
-                Traverse.Create(configManagerType).Method("RegisterMod", id, config).GetValue(id, config);
-            }
-            else
-            {
-                Debug.Log("Mod Config Enforcer not detected.");
-            }
-
-            skillIncrease = new ConfigVariable<float>(assembly, config, id, "skillIncrease", .5f, "Leveling", "Amount of skill exp granted per skillIncreaseTick", false);
-            skillIncreaseTick = new ConfigVariable<int>(assembly, config, id, "skillIncreaseTick", 300, "Leveling", "Number of boat update ticks to grant skill increase after, 50 is roughly equivalent to 1 second", false);
-            halfSailSkillIncreaseMultiplier = new ConfigVariable<float>(assembly, config, id, "halfSailSkillIncreaseMultiplier", 1.5f, "Leveling", "Exp multiplier for half sail sailing speed", false);
-            fullSailSkillIncreaseMultiplier = new ConfigVariable<float>(assembly, config, id, "fullSailSkillIncreaseMultiplier", 2.0f, "Leveling", "Exp multiplier for full sail sailing speed", false);
-
-            maxTailwindBoost = new ConfigVariable<float>(assembly, config, id, "maxTailwindBoost", .5f, "Limits", "Maximum tailwind boost", false);
-            maxForewindDampener = new ConfigVariable<float>(assembly, config, id, "maxForewindDampener", .5f, "Limits", "Maximum forewind slowdown force dampener", false);
-            maxRudderBoost = new ConfigVariable<float>(assembly, config, id, "maxRudderBoost", .5f, "Limits", "Maximum rudder speed boost", false);
-            maxDamageReduction = new ConfigVariable<float>(assembly, config, id, "maxDamageReduction", .5f, "Limits", "Maximum ship damage reduction", false);
+            maxTailwindBoost = new ConfigVariable<float>(config, id, "maxTailwindBoost", .5f, "Limits", "Maximum tailwind boost", false);
+            maxForewindDampener = new ConfigVariable<float>(config, id, "maxForewindDampener", .5f, "Limits", "Maximum forewind slowdown force dampener", false);
+            maxRudderBoost = new ConfigVariable<float>(config, id, "maxRudderBoost", .5f, "Limits", "Maximum rudder speed boost", false);
+            maxDamageReduction = new ConfigVariable<float>(config, id, "maxDamageReduction", .5f, "Limits", "Maximum ship damage reduction", false);
         }
     }
 }

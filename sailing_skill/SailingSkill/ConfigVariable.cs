@@ -21,17 +21,9 @@ namespace SailingSkill
             }
         }
 
-        public ConfigVariable(Assembly assembly, ConfigFile config, string id, string varName, T defaultValue, string configSection, string configDescription, bool localOnly)
+        public ConfigVariable(ConfigFile config, string id, string varName, T defaultValue, string configSection, string configDescription, bool localOnly)
         {
-            if (assembly != null)
-            {
-                var method = assembly.GetType("ModConfigEnforcer.ConfigManager").GetMethods().First(x => x.Name == "RegisterModConfigVariable" && x.IsGenericMethod).MakeGenericMethod(typeof(T));
-                backingStore = method.Invoke(null, new object[] { id, varName, defaultValue, configSection, configDescription, localOnly });
-            }
-            else
-            {
-                backingStore = config.Bind(configSection, varName, defaultValue, configDescription);
-            }
+            backingStore = config.Bind(configSection, varName, defaultValue, configDescription);
         }
     }
 }

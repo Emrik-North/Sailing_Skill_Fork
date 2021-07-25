@@ -1,4 +1,7 @@
-﻿using BepInEx;
+﻿// Original GitHub: https://github.com/gaijinx/valheim_mods
+// Fork: https://github.com/Emrik-North/Sailing_Skill_Fork
+
+using BepInEx;
 using HarmonyLib;
 using Pipakin.SkillInjectorMod;
 using System;
@@ -8,7 +11,6 @@ namespace SailingSkill
 {
 
     [BepInPlugin("gaijinx.mod.sailing_skill", "SailingSkill", "1.2.2")]
-    [BepInDependency("pfhoenix.modconfigenforcer", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.pipakin.SkillInjectorMod")]
     public class SailingSkillsPlugin : BaseUnityPlugin
     {
